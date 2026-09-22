@@ -1,0 +1,981 @@
+{% extends "base.html" %}
+
+{% block title %}
+Create Account | CineBook
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+/* =====================================================
+   REGISTER PAGE
+   ===================================================== */
+
+.register-page {
+
+    min-height: calc(100vh - 72px);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 50px 20px;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(113, 87, 232, 0.12),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(255, 80, 120, 0.10),
+            transparent 30%
+        ),
+        #f7f7f9;
+
+}
+
+
+/* =====================================================
+   REGISTER CARD
+   ===================================================== */
+
+.register-card {
+
+    width: 100%;
+
+    max-width: 470px;
+
+    background: white;
+
+    border-radius: 22px;
+
+    padding: 40px;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.08);
+
+    border: 1px solid #eeeeef;
+
+}
+
+
+/* =====================================================
+   LOGO
+   ===================================================== */
+
+.register-logo {
+
+    width: 62px;
+
+    height: 62px;
+
+    margin: 0 auto 18px;
+
+    border-radius: 17px;
+
+    background: #7157e8;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 29px;
+
+    box-shadow:
+        0 10px 25px
+        rgba(113, 87, 232, 0.25);
+
+}
+
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+.register-header {
+
+    text-align: center;
+
+    margin-bottom: 30px;
+
+}
+
+
+.register-header h1 {
+
+    margin: 0;
+
+    font-size: 29px;
+
+    letter-spacing: -0.8px;
+
+}
+
+
+.register-header p {
+
+    margin: 9px 0 0;
+
+    color: #777;
+
+    font-size: 14px;
+
+}
+
+
+/* =====================================================
+   FORM
+   ===================================================== */
+
+.register-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 17px;
+
+}
+
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+}
+
+
+.form-group label {
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #333;
+
+}
+
+
+.input-wrapper {
+
+    position: relative;
+
+}
+
+
+.input-icon {
+
+    position: absolute;
+
+    left: 15px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 16px;
+
+    pointer-events: none;
+
+    color: #888;
+
+}
+
+
+.form-input {
+
+    width: 100%;
+
+    height: 49px;
+
+    padding: 0 45px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    font-size: 14px;
+
+    background: #fafafa;
+
+    transition: 0.2s;
+
+}
+
+
+.form-input:focus {
+
+    border-color: #7157e8;
+
+    background: white;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(113, 87, 232, 0.10);
+
+}
+
+
+.form-input::placeholder {
+
+    color: #aaa;
+
+}
+
+
+/* =====================================================
+   PASSWORD TOGGLE
+   ===================================================== */
+
+.password-toggle {
+
+    position: absolute;
+
+    right: 13px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    color: #777;
+
+}
+
+
+/* =====================================================
+   PASSWORD STRENGTH
+   ===================================================== */
+
+.password-strength {
+
+    margin-top: 7px;
+
+    display: none;
+
+}
+
+
+.strength-bar {
+
+    height: 4px;
+
+    width: 100%;
+
+    background: #eee;
+
+    border-radius: 5px;
+
+    overflow: hidden;
+
+}
+
+
+.strength-fill {
+
+    height: 100%;
+
+    width: 0%;
+
+    border-radius: 5px;
+
+    transition: 0.3s;
+
+}
+
+
+.strength-text {
+
+    font-size: 11px;
+
+    margin-top: 4px;
+
+    color: #888;
+
+}
+
+
+/* =====================================================
+   TERMS
+   ===================================================== */
+
+.terms {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 9px;
+
+    color: #777;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+    margin-top: 2px;
+
+}
+
+
+.terms input {
+
+    margin-top: 3px;
+
+    accent-color: #7157e8;
+
+}
+
+
+.terms a {
+
+    color: #7157e8;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+}
+
+
+/* =====================================================
+   REGISTER BUTTON
+   ===================================================== */
+
+.register-button {
+
+    width: 100%;
+
+    height: 52px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #171719;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+    margin-top: 4px;
+
+}
+
+
+.register-button:hover {
+
+    background: #7157e8;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(113, 87, 232, 0.22);
+
+}
+
+
+/* =====================================================
+   LOGIN LINK
+   ===================================================== */
+
+.login-section {
+
+    text-align: center;
+
+    margin-top: 25px;
+
+    padding-top: 23px;
+
+    border-top: 1px solid #eee;
+
+    color: #777;
+
+    font-size: 14px;
+
+}
+
+
+.login-section a {
+
+    color: #7157e8;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+}
+
+
+.login-section a:hover {
+
+    text-decoration: underline;
+
+}
+
+
+/* =====================================================
+   NOTE
+   ===================================================== */
+
+.register-note {
+
+    text-align: center;
+
+    margin-top: 18px;
+
+    color: #aaa;
+
+    font-size: 11px;
+
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media(max-width:500px) {
+
+    .register-card {
+
+        padding: 30px 22px;
+
+    }
+
+
+    .register-header h1 {
+
+        font-size: 25px;
+
+    }
+
+}
+
+</style>
+
+
+<div class="register-page">
+
+
+    <div class="register-card">
+
+
+        <!-- LOGO -->
+
+        <div class="register-logo">
+
+            🎬
+
+        </div>
+
+
+        <!-- HEADER -->
+
+        <div class="register-header">
+
+            <h1>
+                Create Your Account
+            </h1>
+
+            <p>
+                Join CineBook and start booking movies
+            </p>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form
+            method="POST"
+            action="{{ url_for('auth.register') }}"
+            class="register-form"
+        >
+
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Full Name
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        👤
+                    </span>
+
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-input"
+                        placeholder="Enter your full name"
+                        required
+                        autocomplete="name"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        ✉️
+                    </span>
+
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="form-input"
+                        placeholder="Enter your email"
+                        required
+                        autocomplete="email"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        🔒
+                    </span>
+
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-input"
+                        placeholder="Create a password"
+                        required
+                        minlength="6"
+                        autocomplete="new-password"
+                    >
+
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="password-toggle"
+                    >
+                        👁️
+                    </button>
+
+                </div>
+
+
+                <!-- STRENGTH -->
+
+                <div
+                    class="password-strength"
+                    id="password-strength"
+                >
+
+                    <div class="strength-bar">
+
+                        <div
+                            class="strength-fill"
+                            id="strength-fill"
+                        ></div>
+
+                    </div>
+
+
+                    <div
+                        class="strength-text"
+                        id="strength-text"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="confirm_password">
+                    Confirm Password
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        🔐
+                    </span>
+
+
+                    <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        class="form-input"
+                        placeholder="Confirm your password"
+                        required
+                        minlength="6"
+                        autocomplete="new-password"
+                    >
+
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="confirm-toggle"
+                    >
+                        👁️
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- TERMS -->
+
+            <label class="terms">
+
+                <input
+                    type="checkbox"
+                    name="terms"
+                    required
+                >
+
+
+                <span>
+
+                    I agree to the
+                    <a href="#">
+                        Terms & Conditions
+                    </a>
+                    and
+                    <a href="#">
+                        Privacy Policy
+                    </a>.
+
+                </span>
+
+            </label>
+
+
+            <!-- REGISTER -->
+
+            <button
+                type="submit"
+                class="register-button"
+            >
+
+                Create Account →
+
+            </button>
+
+
+        </form>
+
+
+        <!-- LOGIN -->
+
+        <div class="login-section">
+
+            Already have an account?
+
+            <a
+                href="{{ url_for('auth.login') }}"
+            >
+                Login
+            </a>
+
+        </div>
+
+
+        <div class="register-note">
+
+            🎬 Your movie journey starts here
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   PASSWORD VISIBILITY
+   ===================================================== */
+
+function setupPasswordToggle(
+    inputId,
+    buttonId
+) {
+
+    const input =
+        document.getElementById(
+            inputId
+        );
+
+    const button =
+        document.getElementById(
+            buttonId
+        );
+
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            if (
+                input.type ===
+                "password"
+            ) {
+
+                input.type =
+                    "text";
+
+                button.textContent =
+                    "🙈";
+
+            } else {
+
+                input.type =
+                    "password";
+
+                button.textContent =
+                    "👁️";
+
+            }
+
+        }
+    );
+
+}
+
+
+setupPasswordToggle(
+    "password",
+    "password-toggle"
+);
+
+
+setupPasswordToggle(
+    "confirm_password",
+    "confirm-toggle"
+);
+
+
+/* =====================================================
+   PASSWORD STRENGTH
+   ===================================================== */
+
+const password =
+    document.getElementById(
+        "password"
+    );
+
+const strengthBox =
+    document.getElementById(
+        "password-strength"
+    );
+
+const strengthFill =
+    document.getElementById(
+        "strength-fill"
+    );
+
+const strengthText =
+    document.getElementById(
+        "strength-text"
+    );
+
+
+password.addEventListener(
+    "input",
+    () => {
+
+        const value =
+            password.value;
+
+
+        if (!value) {
+
+            strengthBox.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        strengthBox.style.display =
+            "block";
+
+
+        let score = 0;
+
+
+        if (value.length >= 6) {
+            score++;
+        }
+
+
+        if (/[A-Z]/.test(value)) {
+            score++;
+        }
+
+
+        if (/[0-9]/.test(value)) {
+            score++;
+        }
+
+
+        if (/[^A-Za-z0-9]/.test(value)) {
+            score++;
+        }
+
+
+        if (score === 1) {
+
+            strengthFill.style.width =
+                "25%";
+
+            strengthText.textContent =
+                "Weak password";
+
+        }
+
+        else if (score === 2) {
+
+            strengthFill.style.width =
+                "50%";
+
+            strengthText.textContent =
+                "Fair password";
+
+        }
+
+        else if (score === 3) {
+
+            strengthFill.style.width =
+                "75%";
+
+            strengthText.textContent =
+                "Good password";
+
+        }
+
+        else {
+
+            strengthFill.style.width =
+                "100%";
+
+            strengthText.textContent =
+                "Strong password";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   CONFIRM PASSWORD CHECK
+   ===================================================== */
+
+const confirmPassword =
+    document.getElementById(
+        "confirm_password"
+    );
+
+
+confirmPassword.addEventListener(
+    "input",
+    () => {
+
+        if (
+            confirmPassword.value &&
+            confirmPassword.value !==
+            password.value
+        ) {
+
+            confirmPassword.style.borderColor =
+                "#e05252";
+
+        }
+
+        else {
+
+            confirmPassword.style.borderColor =
+                "";
+
+        }
+
+    }
+);
+
+</script>
+
+{% endblock %}

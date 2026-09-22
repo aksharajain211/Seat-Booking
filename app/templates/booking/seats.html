@@ -1,0 +1,709 @@
+{% extends "base.html" %}
+
+{% block title %}
+Select Seats | CineBook
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+.seat-page {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 40px 25px 100px;
+
+}
+
+
+/* HEADER */
+
+.booking-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 35px;
+
+}
+
+
+.booking-top h1 {
+
+    margin: 0;
+
+    font-size: 32px;
+
+}
+
+
+.booking-top p {
+
+    color: #777;
+
+}
+
+
+/* SCREEN */
+
+.screen-section {
+
+    text-align: center;
+
+    margin-bottom: 45px;
+
+}
+
+
+.screen {
+
+    width: 70%;
+
+    max-width: 700px;
+
+    height: 50px;
+
+    margin: auto;
+
+    border-radius: 50% 50% 0 0;
+
+    border-top: 6px solid #7157e8;
+
+    box-shadow:
+        0 -10px 30px
+        rgba(113,87,232,0.25);
+
+}
+
+
+.screen-text {
+
+    color: #888;
+
+    font-size: 13px;
+
+}
+
+
+/* SEATS */
+
+.seat-layout {
+
+    background: white;
+
+    padding: 35px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(0,0,0,0.07);
+
+    overflow-x: auto;
+
+}
+
+
+.seat-row {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin: 13px 0;
+
+}
+
+
+.row-label {
+
+    width: 30px;
+
+    font-weight: bold;
+
+    color: #777;
+
+}
+
+
+.seat {
+
+    width: 42px;
+
+    height: 38px;
+
+    border-radius: 8px 8px 5px 5px;
+
+    border: 1px solid transparent;
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+/* AVAILABLE */
+
+.seat.available {
+
+    background: #e7f7ec;
+
+    border-color: #54b96b;
+
+    color: #28753a;
+
+}
+
+
+.seat.available:hover {
+
+    transform: translateY(-3px);
+
+    background: #c9f0d3;
+
+}
+
+
+/* SELECTED */
+
+.seat.selected {
+
+    background: #7157e8;
+
+    color: white;
+
+    border-color: #7157e8;
+
+}
+
+
+/* HELD */
+
+.seat.held {
+
+    background: #ffe7a8;
+
+    border-color: #e0a500;
+
+    color: #855f00;
+
+    cursor: not-allowed;
+
+}
+
+
+/* BOOKED */
+
+.seat.booked {
+
+    background: #e8e8e8;
+
+    border-color: #ccc;
+
+    color: #999;
+
+    cursor: not-allowed;
+
+}
+
+
+/* LEGEND */
+
+.legend {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 30px;
+
+    margin: 30px 0;
+
+    flex-wrap: wrap;
+
+}
+
+
+.legend-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 13px;
+
+    color: #666;
+
+}
+
+
+.legend-box {
+
+    width: 20px;
+
+    height: 20px;
+
+    border-radius: 5px;
+
+}
+
+
+.legend-available {
+
+    background: #e7f7ec;
+
+    border: 1px solid #54b96b;
+
+}
+
+
+.legend-selected {
+
+    background: #7157e8;
+
+}
+
+
+.legend-held {
+
+    background: #ffe7a8;
+
+}
+
+
+.legend-booked {
+
+    background: #e8e8e8;
+
+    border: 1px solid #ccc;
+
+}
+
+
+/* SUMMARY */
+
+.booking-summary {
+
+    position: sticky;
+
+    bottom: 20px;
+
+    margin-top: 35px;
+
+    background: #171719;
+
+    color: white;
+
+    padding: 20px 25px;
+
+    border-radius: 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(0,0,0,0.2);
+
+}
+
+
+.selected-info span {
+
+    color: #aaa;
+
+    font-size: 12px;
+
+}
+
+
+.selected-info h3 {
+
+    margin: 5px 0 0;
+
+}
+
+
+.total h3 {
+
+    margin: 0;
+
+}
+
+
+.continue-button {
+
+    border: none;
+
+    background: #7157e8;
+
+    color: white;
+
+    padding: 13px 28px;
+
+    border-radius: 9px;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.continue-button:disabled {
+
+    background: #555;
+
+    cursor: not-allowed;
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:700px) {
+
+    .booking-top {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+
+    .seat-layout {
+
+        padding: 20px;
+
+    }
+
+
+    .seat {
+
+        width: 34px;
+
+        height: 32px;
+
+        font-size: 9px;
+
+    }
+
+
+    .booking-summary {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+}
+
+</style>
+
+
+<div class="seat-page">
+
+
+    <!-- HEADER -->
+
+    <div class="booking-top">
+
+        <div>
+
+            <h1>
+                💺 Select Your Seats
+            </h1>
+
+            <p>
+
+                {{ show.movie.title }}
+
+                •
+                {{ show.start_time.strftime(
+                    "%d %b %Y"
+                ) }}
+
+                •
+                {{ show.start_time.strftime(
+                    "%I:%M %p"
+                ) }}
+
+            </p>
+
+        </div>
+
+
+        <strong>
+
+            ₹{{ show.price }}
+            / seat
+
+        </strong>
+
+    </div>
+
+
+    <!-- SCREEN -->
+
+    <div class="screen-section">
+
+        <div class="screen"></div>
+
+        <div class="screen-text">
+
+            All eyes this way
+
+        </div>
+
+    </div>
+
+
+    <!-- SEATS -->
+
+    <div class="seat-layout">
+
+
+        {% set current_row = namespace(
+            value=""
+        ) %}
+
+
+        {% for show_seat in show_seats %}
+
+
+            {% set row =
+                show_seat.seat.row_label
+            %}
+
+
+            {% if row != current_row.value %}
+
+                {% if current_row.value != "" %}
+
+                    </div>
+
+                {% endif %}
+
+
+                {% set current_row.value = row %}
+
+
+                <div class="seat-row">
+
+                    <div class="row-label">
+
+                        {{ row }}
+
+                    </div>
+
+            {% endif %}
+
+
+            {% set seat_name =
+                show_seat.seat.row_label
+                ~ show_seat.seat.seat_number
+            %}
+
+
+            {% if show_seat.status == "AVAILABLE" %}
+
+                <button
+                    type="button"
+
+                    class="seat available"
+
+                    data-seat-id="{{ show_seat.id }}"
+
+                    data-seat-name="{{ seat_name }}"
+
+                    data-price="{{ show.price }}"
+                >
+
+                    {{ seat_name }}
+
+                </button>
+
+
+            {% elif show_seat.status == "HELD" %}
+
+                <button
+                    type="button"
+
+                    class="seat held"
+
+                    disabled
+                >
+
+                    {{ seat_name }}
+
+                </button>
+
+
+            {% else %}
+
+                <button
+                    type="button"
+
+                    class="seat booked"
+
+                    disabled
+                >
+
+                    {{ seat_name }}
+
+                </button>
+
+            {% endif %}
+
+
+        {% endfor %}
+
+
+        {% if current_row.value != "" %}
+
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- LEGEND -->
+
+    <div class="legend">
+
+
+        <div class="legend-item">
+
+            <span
+                class="legend-box legend-available"
+            ></span>
+
+            Available
+
+        </div>
+
+
+        <div class="legend-item">
+
+            <span
+                class="legend-box legend-selected"
+            ></span>
+
+            Selected
+
+        </div>
+
+
+        <div class="legend-item">
+
+            <span
+                class="legend-box legend-held"
+            ></span>
+
+            Held
+
+        </div>
+
+
+        <div class="legend-item">
+
+            <span
+                class="legend-box legend-booked"
+            ></span>
+
+            Booked
+
+        </div>
+
+
+    </div>
+
+
+    <!-- SUMMARY -->
+
+    <div class="booking-summary">
+
+
+        <div class="selected-info">
+
+            <span>
+                SELECTED SEATS
+            </span>
+
+            <h3 id="selected-seats">
+                None
+            </h3>
+
+        </div>
+
+
+        <div class="total">
+
+            <span>
+                TOTAL
+            </span>
+
+            <h3>
+                ₹<span id="total-price">0</span>
+            </h3>
+
+        </div>
+
+
+        <button
+            id="continue-button"
+            class="continue-button"
+            disabled
+        >
+
+            Continue to Payment →
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+const SHOW_ID = {{ show.id }};
+
+</script>
+
+
+<script src="{{ url_for(
+    'static',
+    filename='js/seats.js'
+) }}"></script>
+
+
+{% endblock %}

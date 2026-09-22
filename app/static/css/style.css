@@ -1,0 +1,665 @@
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background: #f7f7f9;
+
+    color: #17171a;
+}
+
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+nav {
+    height: 72px;
+
+    padding: 0 6%;
+
+    background: #171719;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+}
+
+
+nav h2 {
+    margin: 0;
+
+    font-size: 23px;
+
+    letter-spacing: -0.5px;
+}
+
+
+nav a {
+    color: #ddd;
+
+    text-decoration: none;
+
+    margin-left: 28px;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+
+nav a:hover {
+    color: white;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero-section {
+    min-height: 430px;
+
+    background:
+        radial-gradient(
+            circle at 75% 30%,
+            rgba(120, 80, 255, 0.35),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(255, 60, 100, 0.25),
+            transparent 30%
+        ),
+        #171719;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 70px 8%;
+}
+
+
+.hero-content {
+    max-width: 700px;
+}
+
+
+.hero-badge {
+    font-size: 12px;
+
+    letter-spacing: 3px;
+
+    color: #b8a9ff;
+
+    font-weight: 700;
+}
+
+
+.hero-content h1 {
+    font-size: clamp(
+        45px,
+        7vw,
+        80px
+    );
+
+    line-height: 0.98;
+
+    margin: 18px 0;
+
+    letter-spacing: -4px;
+}
+
+
+.hero-content h1 span {
+    color: #a18aff;
+}
+
+
+.hero-content p {
+    color: #bdbdc5;
+
+    font-size: 17px;
+
+    margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.hero-search {
+    width: min(
+        520px,
+        100%
+    );
+
+    height: 58px;
+
+    background: white;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 18px;
+
+    gap: 12px;
+}
+
+
+.hero-search span {
+    font-size: 20px;
+}
+
+
+.hero-search input {
+    border: none;
+
+    outline: none;
+
+    flex: 1;
+
+    font-size: 15px;
+
+    color: #222;
+}
+
+
+/* =========================================================
+   MOVIES SECTION
+   ========================================================= */
+
+.movies-section {
+    max-width: 1250px;
+
+    margin: auto;
+
+    padding: 65px 30px 100px;
+}
+
+
+.section-heading {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: end;
+
+    margin-bottom: 25px;
+}
+
+
+.section-label {
+    color: #7157e8;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    font-weight: 800;
+}
+
+
+.section-heading h2 {
+    font-size: 34px;
+
+    margin: 8px 0 0;
+
+    letter-spacing: -1px;
+}
+
+
+#movie-count {
+    color: #888;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   FILTERS
+   ========================================================= */
+
+.movie-filters {
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 35px;
+
+    overflow-x: auto;
+
+    padding-bottom: 5px;
+}
+
+
+.filter-btn {
+    border: 1px solid #ddd;
+
+    background: white;
+
+    color: #555;
+
+    padding: 9px 18px;
+
+    border-radius: 30px;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    transition: 0.2s;
+}
+
+
+.filter-btn:hover {
+    border-color: #7157e8;
+
+    color: #7157e8;
+}
+
+
+.filter-btn.active {
+    background: #7157e8;
+
+    border-color: #7157e8;
+
+    color: white;
+}
+
+
+/* =========================================================
+   MOVIE GRID
+   ========================================================= */
+
+.movie-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0, 1fr)
+        );
+
+    gap: 28px;
+}
+
+
+/* =========================================================
+   MOVIE CARD
+   ========================================================= */
+
+.movie-card {
+    background: white;
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    border: 1px solid #eee;
+
+    transition:
+        transform 0.25s,
+        box-shadow 0.25s;
+
+}
+
+
+.movie-card:hover {
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 20px 45px
+        rgba(0, 0, 0, 0.10);
+}
+
+
+/* =========================================================
+   POSTER
+   ========================================================= */
+
+.poster-wrapper {
+    height: 390px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background: #242429;
+}
+
+
+.movie-poster {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition:
+        transform 0.4s;
+}
+
+
+.movie-card:hover
+.movie-poster {
+    transform: scale(1.05);
+}
+
+
+/* FALLBACK */
+
+.poster-fallback {
+    height: 100%;
+
+    width: 100%;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 70px;
+
+    color: white;
+}
+
+
+/* OVERLAY */
+
+.poster-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            transparent 45%,
+            rgba(0,0,0,0.8)
+        );
+
+    opacity: 0;
+
+    display: flex;
+
+    align-items: end;
+
+    justify-content: center;
+
+    padding-bottom: 25px;
+
+    transition: 0.25s;
+}
+
+
+.movie-card:hover
+.poster-overlay {
+    opacity: 1;
+}
+
+
+.poster-overlay a {
+    background: white;
+
+    color: #222;
+
+    text-decoration: none;
+
+    padding: 10px 22px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   MOVIE INFO
+   ========================================================= */
+
+.movie-info {
+    padding: 20px;
+}
+
+
+.movie-info h3 {
+    margin: 0 0 9px;
+
+    font-size: 21px;
+
+    letter-spacing: -0.4px;
+}
+
+
+.movie-rating {
+    display: flex;
+
+    gap: 8px;
+
+    align-items: center;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+.movie-rating span:first-child {
+    color: #333;
+
+    font-weight: 600;
+}
+
+
+.dot {
+    color: #ccc;
+}
+
+
+.movie-meta {
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 14px;
+}
+
+
+.movie-meta span {
+    background: #f2f2f5;
+
+    padding: 5px 9px;
+
+    border-radius: 5px;
+
+    color: #666;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   BOOK BUTTON
+   ========================================================= */
+
+.book-btn {
+    margin-top: 18px;
+
+    width: 100%;
+
+    height: 44px;
+
+    background: #171719;
+
+    color: white;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+
+.book-btn:hover {
+    background: #7157e8;
+}
+
+
+.book-btn span {
+    transition: 0.2s;
+}
+
+
+.book-btn:hover span {
+    transform: translateX(4px);
+}
+
+
+/* =========================================================
+   EMPTY
+   ========================================================= */
+
+.no-movies {
+    grid-column: 1 / -1;
+
+    text-align: center;
+
+    padding: 80px;
+
+    color: #777;
+}
+
+
+.no-movies div {
+    font-size: 50px;
+}
+
+
+/* =========================================================
+   FLASH
+   ========================================================= */
+
+.flash {
+    position: fixed;
+
+    top: 90px;
+
+    right: 25px;
+
+    z-index: 999;
+
+    background: #222;
+
+    color: white;
+
+    padding: 14px 20px;
+
+    border-radius: 8px;
+
+    transition: opacity 0.5s;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 950px) {
+
+    .movie-grid {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    nav {
+        padding: 0 20px;
+    }
+
+
+    nav a {
+        margin-left: 10px;
+
+        font-size: 12px;
+    }
+
+
+    .hero-section {
+        padding: 55px 25px;
+    }
+
+
+    .hero-content h1 {
+        letter-spacing: -2px;
+    }
+
+
+    .movies-section {
+        padding: 45px 18px;
+    }
+
+
+    .movie-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .poster-wrapper {
+        height: 430px;
+    }
+
+}

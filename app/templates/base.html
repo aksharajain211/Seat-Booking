@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+        CineBook
+        {% endblock %}
+    </title>
+
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for(
+            'static',
+            filename='css/style.css'
+        ) }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav>
+
+    <div>
+
+        <a
+            href="{{ url_for('movie.movies') }}"
+            style="margin:0;color:white;font-size:23px;font-weight:700;"
+        >
+            🎬 CineBook
+        </a>
+
+    </div>
+
+
+    <div>
+
+        <a href="{{ url_for('movie.movies') }}">
+            Movies
+        </a>
+
+
+        {% if current_user.is_authenticated %}
+
+        <a href="/booking/history">
+            My Bookings
+        </a>
+
+        <a href="{{ url_for('auth.logout') }}">
+            Logout
+        </a>
+
+        {% else %}
+
+        <a href="{{ url_for('auth.login') }}">
+            Login
+        </a>
+
+        <a href="{{ url_for('auth.register') }}">
+            Register
+        </a>
+
+        {% endif %}
+
+    </div>
+
+</nav>
+
+
+<!-- FLASH -->
+
+{% with messages = get_flashed_messages() %}
+
+    {% for message in messages %}
+
+        <div class="flash">
+            {{ message }}
+        </div>
+
+    {% endfor %}
+
+{% endwith %}
+
+
+<!-- PAGE -->
+
+<main>
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='js/main.js'
+    ) }}"
+></script>
+
+
+</body>
+
+</html>

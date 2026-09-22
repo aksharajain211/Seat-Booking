@@ -1,0 +1,514 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ movie.title }} | CineBook
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+.movie-details-page {
+    max-width: 1200px;
+    margin: auto;
+    padding: 50px 30px 100px;
+}
+
+
+/* =====================================================
+   MOVIE HERO
+   ===================================================== */
+
+.movie-hero {
+
+    display: grid;
+
+    grid-template-columns:
+        280px 1fr;
+
+    gap: 45px;
+
+    background: white;
+
+    padding: 35px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,0.07);
+
+}
+
+
+.movie-details-poster {
+
+    width: 100%;
+
+    height: 400px;
+
+    object-fit: cover;
+
+    border-radius: 14px;
+
+}
+
+
+.movie-details-info {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+}
+
+
+.movie-details-info h1 {
+
+    font-size: 42px;
+
+    margin: 0 0 15px;
+
+    letter-spacing: -1px;
+
+}
+
+
+.movie-description {
+
+    color: #666;
+
+    line-height: 1.7;
+
+    max-width: 700px;
+
+}
+
+
+.movie-tags {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    margin: 20px 0;
+
+}
+
+
+.movie-tag {
+
+    background: #f1f1f5;
+
+    padding: 8px 13px;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+
+    color: #555;
+
+}
+
+
+.rating {
+
+    color: #e49b00;
+
+    font-weight: 700;
+
+    font-size: 17px;
+
+}
+
+
+/* =====================================================
+   SHOW SECTION
+   ===================================================== */
+
+.show-section {
+
+    margin-top: 50px;
+
+}
+
+
+.section-title {
+
+    margin-bottom: 25px;
+
+}
+
+
+.section-title span {
+
+    color: #7157e8;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+}
+
+
+.section-title h2 {
+
+    margin: 8px 0 0;
+
+    font-size: 30px;
+
+}
+
+
+/* =====================================================
+   THEATRE
+   ===================================================== */
+
+.theatre-card {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 16px;
+
+    margin-bottom: 20px;
+
+    border: 1px solid #eee;
+
+}
+
+
+.theatre-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+}
+
+
+.theatre-name {
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+}
+
+
+.theatre-location {
+
+    color: #888;
+
+    font-size: 14px;
+
+    margin-top: 5px;
+
+}
+
+
+/* =====================================================
+   SHOW TIMES
+   ===================================================== */
+
+.show-list {
+
+    display: flex;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+}
+
+
+.show-card {
+
+    text-decoration: none;
+
+    color: #222;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    padding: 15px 22px;
+
+    min-width: 130px;
+
+    text-align: center;
+
+    transition: 0.2s;
+
+}
+
+
+.show-card:hover {
+
+    border-color: #7157e8;
+
+    background: #f5f3ff;
+
+    transform: translateY(-3px);
+
+}
+
+
+.show-time {
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+}
+
+
+.show-price {
+
+    color: #777;
+
+    font-size: 13px;
+
+    margin-top: 5px;
+
+}
+
+
+.no-shows {
+
+    background: white;
+
+    padding: 50px;
+
+    text-align: center;
+
+    border-radius: 15px;
+
+    color: #777;
+
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 750px) {
+
+    .movie-hero {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .movie-details-poster {
+
+        height: 430px;
+
+        max-width: 300px;
+
+        margin: auto;
+
+    }
+
+
+    .movie-details-info h1 {
+
+        font-size: 32px;
+
+    }
+
+}
+
+</style>
+
+
+<div class="movie-details-page">
+
+
+    <!-- =================================================
+         MOVIE INFORMATION
+         ================================================= -->
+
+    <section class="movie-hero">
+
+
+        {% if movie.poster_url %}
+
+        <img
+            src="{{ movie.poster_url }}"
+            alt="{{ movie.title }}"
+            class="movie-details-poster"
+        >
+
+        {% endif %}
+
+
+        <div class="movie-details-info">
+
+            <h1>
+                {{ movie.title }}
+            </h1>
+
+
+            <div class="rating">
+
+                ⭐ {{ movie.rating or "N/A" }}
+
+            </div>
+
+
+            <div class="movie-tags">
+
+                <span class="movie-tag">
+                    {{ movie.language }}
+                </span>
+
+                <span class="movie-tag">
+                    {{ movie.genre }}
+                </span>
+
+                <span class="movie-tag">
+                    {{ movie.duration }} min
+                </span>
+
+            </div>
+
+
+            <p class="movie-description">
+
+                {{ movie.description }}
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         SHOWS
+         ================================================= -->
+
+    <section class="show-section">
+
+
+        <div class="section-title">
+
+            <span>
+                SELECT A SHOW
+            </span>
+
+            <h2>
+                Choose Theatre & Timing
+            </h2>
+
+        </div>
+
+
+        <!-- THEATRE -->
+
+        <div class="theatre-card">
+
+
+            <div class="theatre-header">
+
+                <div>
+
+                    <div class="theatre-name">
+
+                        🎭 CineBook Multiplex
+
+                    </div>
+
+
+                    <div class="theatre-location">
+
+                        📍 Jaipur, Rajasthan
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {% if shows %}
+
+
+            <div class="show-list">
+
+
+                {% for show in shows %}
+
+
+                <a
+                    href="{{ url_for(
+                        'booking.seats',
+                        show_id=show.id
+                    ) }}"
+                    class="show-card"
+                >
+
+                    <div class="show-time">
+
+                        {{ show.start_time.strftime(
+                            "%I:%M %p"
+                        ) }}
+
+                    </div>
+
+
+                    <div class="show-price">
+
+                        ₹{{ show.price }}
+
+                    </div>
+
+                </a>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+            {% else %}
+
+
+            <div class="no-shows">
+
+                <h3>
+                    No shows available
+                </h3>
+
+                <p>
+                    There are currently no shows
+                    for this movie.
+                </p>
+
+            </div>
+
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

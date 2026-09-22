@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+Shows - CineBook
+{% endblock %}
+
+{% block content %}
+
+<h1>Shows</h1>
+
+{% for show in shows %}
+
+<div class="show-card">
+
+    <h2>Show #{{ show.id }}</h2>
+
+    <p>
+        Start:
+        {{ show.start_time }}
+    </p>
+
+    <p>
+        End:
+        {{ show.end_time }}
+    </p>
+
+    <p>
+        Price:
+        ₹{{ show.price }}
+    </p>
+
+</div>
+
+{% else %}
+
+<p>No shows available.</p>
+
+{% endfor %}
+
+{% endblock %}

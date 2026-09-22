@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Bookings - CineBook
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+.history-page {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.history-header {
+    margin-bottom: 30px;
+}
+
+
+.booking-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+
+.booking-card {
+    background: white;
+
+    border-radius: 15px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 5px 25px rgba(0,0,0,0.07);
+
+    display: grid;
+
+    grid-template-columns:
+        2fr 1fr 1fr auto;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+
+.movie-title {
+    font-size: 20px;
+
+    font-weight: bold;
+
+    margin-bottom: 8px;
+}
+
+
+.booking-info {
+    color: #777;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+}
+
+
+.status {
+    display: inline-block;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+
+.status.CONFIRMED {
+    background: #d9f7df;
+
+    color: #16833a;
+}
+
+
+.status.PENDING {
+    background: #fff4d6;
+
+    color: #8a6100;
+}
+
+
+.status.CANCELLED,
+.status.EXPIRED {
+    background: #ffe5e5;
+
+    color: #b00020;
+}
+
+
+.view-ticket {
+    padding: 10px 18px;
+
+    border-radius: 8px;
+
+    background: #5b5ce2;
+
+    color: white;
+
+    text-decoration: none;
+
+    white-space: nowrap;
+}
+
+
+.empty-bookings {
+    text-align: center;
+
+    padding: 80px 20px;
+
+    background: white;
+
+    border-radius: 15px;
+}
+
+
+.empty-bookings h2 {
+    margin-bottom: 10px;
+}
+
+
+.browse-button {
+    display: inline-block;
+
+    margin-top: 20px;
+
+    padding: 12px 25px;
+
+    border-radius: 8px;
+
+    background: #5b5ce2;
+
+    color: white;
+
+    text-decoration: none;
+}
+
+
+/* MOBILE */
+
+@media(max-width: 800px) {
+
+    .booking-card {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+</style>
+
+
+<div class="history-page">
+
+
+    <div class="history-header">
+
+        <h1>
+            🎟️ My Bookings
+        </h1>
+
+        <p>
+            View all your CineBook movie tickets.
+        </p>
+
+    </div>
+
+
+    {% if bookings %}
+
+
+    <div class="booking-list">
+
+
+        {% for booking in bookings %}
+
+        <div class="booking-card">
+
+
+            <!-- MOVIE -->
+
+            <div>
+
+                <div class="movie-title">
+
+                    {% if booking.show and
+                          booking.show.movie %}
+
+                        {{ booking.show.movie.title }}
+
+                    {% else %}
+
+                        Movie Booking
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="booking-info">
+
+                    Booking #{{ booking.id }}
+
+                    <br>
+
+                    Booked on:
+                    {{ booking.created_at.strftime(
+                        "%d %b %Y, %I:%M %p"
+                    ) }}
+
+                </div>
+
+            </div>
+
+
+            <!-- SHOW -->
+
+            <div class="booking-info">
+
+                {% if booking.show %}
+
+                    <strong>
+                        {{ booking.show.start_time.strftime(
+                            "%d %b %Y"
+                        ) }}
+                    </strong>
+
+                    <br>
+
+                    {{ booking.show.start_time.strftime(
+                        "%I:%M %p"
+                    ) }}
+
+                {% else %}
+
+                    —
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div>
+
+                <span
+                    class="status
+                    {{ booking.booking_status }}"
+                >
+                    {{ booking.booking_status }}
+                </span>
+
+                <div class="booking-info">
+
+                    ₹{{ booking.total_amount }}
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <div>
+
+                {% if booking.booking_status == "CONFIRMED" %}
+
+                <a
+                    href="{{ url_for(
+                        'booking.success',
+                        booking_id=booking.id
+                    ) }}"
+                    class="view-ticket"
+                >
+                    View Ticket
+                </a>
+
+                {% endif %}
+
+            </div>
+
+
+        </div>
+
+        {% endfor %}
+
+
+    </div>
+
+
+    {% else %}
+
+
+    <div class="empty-bookings">
+
+        <h2>
+            🎟️ No bookings yet
+        </h2>
+
+        <p>
+            Your booked movie tickets will appear here.
+        </p>
+
+        <a
+            href="{{ url_for('movie.movies') }}"
+            class="browse-button"
+        >
+            Browse Movies
+        </a>
+
+    </div>
+
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

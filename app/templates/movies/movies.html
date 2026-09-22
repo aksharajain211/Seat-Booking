@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+
+{% block title %}Movies | CineBook{% endblock %}
+
+{% block content %}
+
+<div class="movies-page">
+
+    <!-- HERO -->
+
+    <section class="hero-section">
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+                🎬 CINEBOOK
+            </span>
+
+            <h1>
+                Movies. Seats.<br>
+                <span>Memories.</span>
+            </h1>
+
+            <p>
+                Book your favourite movies with just a few clicks.
+            </p>
+
+            <div class="hero-search">
+
+                <span>🔍</span>
+
+                <input
+                    type="text"
+                    id="movie-search"
+                    placeholder="Search for movies..."
+                >
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MOVIES -->
+
+    <section class="movies-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-label">
+                    NOW SHOWING
+                </span>
+
+                <h2>
+                    Explore Movies
+                </h2>
+
+            </div>
+
+            <span id="movie-count">
+                {{ movies|length }} movies
+            </span>
+
+        </div>
+
+
+        <!-- FILTERS -->
+
+        <div class="movie-filters">
+
+            <button
+                class="filter-btn active"
+                data-filter="all"
+            >
+                All
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="Action"
+            >
+                Action
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="Comedy"
+            >
+                Comedy
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="Sci-Fi"
+            >
+                Sci-Fi
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="Drama"
+            >
+                Drama
+            </button>
+
+        </div>
+
+
+        <!-- MOVIE GRID -->
+
+        <div class="movie-grid" id="movie-grid">
+
+            {% for movie in movies %}
+
+            <article
+                class="movie-card"
+                data-title="{{ movie.title }}"
+                data-genre="{{ movie.genre }}"
+            >
+
+                <!-- POSTER -->
+
+                <div class="poster-wrapper">
+
+                    {% if movie.poster_url %}
+
+                    <img
+                        src="{{ movie.poster_url }}"
+                        alt="{{ movie.title }}"
+                        class="movie-poster"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                    >
+
+                    {% endif %}
+
+                    <div
+                        class="poster-fallback"
+                        {% if movie.poster_url %}
+                        style="display:none"
+                        {% endif %}
+                    >
+                        🎬
+                    </div>
+
+
+                    <div class="poster-overlay">
+
+                        <a
+                            href="{{ url_for(
+                                'movie.movie_details',
+                                movie_id=movie.id
+                            ) }}"
+                        >
+                            View Details
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MOVIE INFORMATION -->
+
+                <div class="movie-info">
+
+                    <h3>
+                        {{ movie.title }}
+                    </h3>
+
+
+                    <div class="movie-rating">
+
+                        <span>
+                            ⭐ {{ movie.rating or "N/A" }}
+                        </span>
+
+                        <span class="dot">
+                            •
+                        </span>
+
+                        <span>
+                            {{ movie.language }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="movie-meta">
+
+                        <span>
+                            {{ movie.genre }}
+                        </span>
+
+                        <span>
+                            {{ movie.duration }} min
+                        </span>
+
+                    </div>
+
+
+                    <a
+                        class="book-btn"
+                        href="{{ url_for(
+                            'movie.movie_details',
+                            movie_id=movie.id
+                        ) }}"
+                    >
+                        Book Now
+                        <span>→</span>
+                    </a>
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+
+            <!-- EMPTY -->
+
+            <div
+                id="no-movies"
+                class="no-movies"
+                style="display:none"
+            >
+
+                <div>
+                    🎬
+                </div>
+
+                <h3>
+                    No movies found
+                </h3>
+
+                <p>
+                    Try another search or genre.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

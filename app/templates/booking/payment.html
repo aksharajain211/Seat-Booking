@@ -1,0 +1,503 @@
+{% extends "base.html" %}
+
+{% block title %}
+Payment - CineBook
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+.payment-page {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.payment-container {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 30px;
+}
+
+/* CARDS */
+
+.payment-card,
+.order-card {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.payment-card h1 {
+    margin-top: 0;
+    color: #222;
+}
+
+.order-card h2 {
+    margin-top: 0;
+    color: #222;
+}
+
+/* TIMER */
+
+.timer-box {
+    background: #fff4d6;
+    color: #8a6100;
+    padding: 18px;
+    border-radius: 12px;
+    text-align: center;
+    margin: 25px 0;
+}
+
+.timer-box span {
+    display: block;
+    font-size: 14px;
+}
+
+.timer-box strong {
+    display: block;
+    font-size: 32px;
+    margin-top: 5px;
+}
+
+#countdown.warning {
+    color: #d35400;
+}
+
+#countdown.expired {
+    color: #b00020;
+}
+
+/* PAYMENT METHODS */
+
+.payment-method {
+    display: block;
+    padding: 18px;
+    margin: 12px 0;
+    border: 2px solid #eeeeee;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.payment-method:hover {
+    border-color: #5b5ce2;
+}
+
+.payment-method.selected {
+    border-color: #5b5ce2;
+    background: #f2f2ff;
+}
+
+.payment-method input {
+    margin-right: 10px;
+}
+
+/* CARD DETAILS */
+
+#card-details {
+    display: none;
+    margin-top: 20px;
+}
+
+#card-details input {
+    width: 100%;
+    padding: 13px;
+    margin: 7px 0;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+
+.card-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* PAY BUTTON */
+
+.pay-button {
+    width: 100%;
+    padding: 16px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 10px;
+    background: #5b5ce2;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pay-button:hover {
+    background: #4647c5;
+}
+
+.pay-button:disabled {
+    background: #aaaaaa;
+    cursor: not-allowed;
+}
+
+/* PAYMENT MESSAGE */
+
+.payment-message {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    display: none;
+}
+
+.payment-message.error {
+    display: block;
+    background: #ffe5e5;
+    color: #b00020;
+}
+
+.payment-message.success {
+    display: block;
+    background: #e3f8e8;
+    color: #167a32;
+}
+
+.payment-message.processing {
+    display: block;
+    background: #e9e9ff;
+    color: #4040a0;
+}
+
+/* ORDER SUMMARY */
+
+.order-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.order-row span:first-child {
+    color: #777777;
+}
+
+.order-row strong {
+    text-align: right;
+}
+
+.total-row {
+    font-size: 21px;
+    font-weight: bold;
+    border-bottom: none;
+    margin-top: 10px;
+}
+
+/* SECURITY */
+
+.security-message {
+    margin-top: 25px;
+    padding: 15px;
+    background: #f5f5ff;
+    border-radius: 10px;
+    color: #555;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* MOBILE */
+
+@media (max-width: 750px) {
+
+    .payment-container {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-page {
+        padding: 10px;
+    }
+
+    .card-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+
+
+<div class="payment-page">
+
+    <div class="payment-container">
+
+        <!-- PAYMENT SECTION -->
+
+        <div class="payment-card">
+
+            <h1>
+                💳 Complete Payment
+            </h1>
+
+            <p>
+                Your selected seats are temporarily held.
+            </p>
+
+
+            <!-- TIMER -->
+
+            <div class="timer-box">
+
+                <span>
+                    Complete payment within
+                </span>
+
+                <strong id="countdown">
+                    05:00
+                </strong>
+
+            </div>
+
+
+            <!-- PAYMENT FORM -->
+
+            <form
+                id="payment-form"
+                data-booking-id="{{ booking.id }}"
+                data-hold-until="{{ hold_until.isoformat() }}Z"
+            >
+
+                <h3>
+                    Select Payment Method
+                </h3>
+
+
+                <!-- UPI -->
+
+                <label class="payment-method">
+
+                    <input
+                        type="radio"
+                        name="payment_method"
+                        value="UPI"
+                    >
+
+                    📱 UPI
+
+                </label>
+
+
+                <!-- CARD -->
+
+                <label class="payment-method">
+
+                    <input
+                        type="radio"
+                        name="payment_method"
+                        value="CARD"
+                    >
+
+                    💳 Credit / Debit Card
+
+                </label>
+
+
+                <!-- NET BANKING -->
+
+                <label class="payment-method">
+
+                    <input
+                        type="radio"
+                        name="payment_method"
+                        value="NET_BANKING"
+                    >
+
+                    🏦 Net Banking
+
+                </label>
+
+
+                <!-- CARD DETAILS -->
+
+                <div id="card-details">
+
+                    <input
+                        id="card-number"
+                        type="text"
+                        inputmode="numeric"
+                        autocomplete="off"
+                        placeholder="Card Number"
+                        maxlength="19"
+                    >
+
+                    <div class="card-row">
+
+                        <input
+                            id="expiry"
+                            type="text"
+                            inputmode="numeric"
+                            autocomplete="off"
+                            placeholder="MM/YY"
+                            maxlength="5"
+                        >
+
+                        <input
+                            id="cvv"
+                            type="password"
+                            inputmode="numeric"
+                            autocomplete="off"
+                            placeholder="CVV"
+                            maxlength="3"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- MESSAGE -->
+
+                <div
+                    id="payment-message"
+                    class="payment-message"
+                ></div>
+
+
+                <!-- PAY -->
+
+                <button
+                    type="submit"
+                    id="pay-button"
+                    class="pay-button"
+                >
+
+                    Pay ₹{{ booking.total_amount }}
+
+                </button>
+
+
+                <div class="security-message">
+
+                    🔒 This is a demo payment system.
+
+                    <br>
+
+                    No real card, UPI or banking transaction
+                    will be performed.
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- ORDER SUMMARY -->
+
+        <div class="order-card">
+
+            <h2>
+                🎟️ Booking Summary
+            </h2>
+
+
+            <div class="order-row">
+
+                <span>
+                    Movie
+                </span>
+
+                <strong>
+                    {{ movie.title }}
+                </strong>
+
+            </div>
+
+
+            <div class="order-row">
+
+                <span>
+                    Theatre
+                </span>
+
+                <strong>
+                    CineBook Multiplex
+                </strong>
+
+            </div>
+
+
+            <div class="order-row">
+
+                <span>
+                    Location
+                </span>
+
+                <strong>
+                    Jaipur
+                </strong>
+
+            </div>
+
+
+            <div class="order-row">
+
+                <span>
+                    Date
+                </span>
+
+                <strong>
+                    {{ show.start_time.strftime("%d %b %Y") }}
+                </strong>
+
+            </div>
+
+
+            <div class="order-row">
+
+                <span>
+                    Show
+                </span>
+
+                <strong>
+                    {{ show.start_time.strftime("%I:%M %p") }}
+                </strong>
+
+            </div>
+
+
+            <div class="order-row">
+
+                <span>
+                    Seats
+                </span>
+
+                <strong>
+                    {{ seats }}
+                </strong>
+
+            </div>
+
+
+            <div class="order-row total-row">
+
+                <span>
+                    Total
+                </span>
+
+                <span>
+                    ₹{{ booking.total_amount }}
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/payment.js') }}"></script>
+
+{% endblock %}

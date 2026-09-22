@@ -1,0 +1,648 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login | CineBook
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+/* =====================================================
+   LOGIN PAGE
+   ===================================================== */
+
+.login-page {
+
+    min-height: calc(100vh - 72px);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 50px 20px;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(113, 87, 232, 0.12),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(255, 80, 120, 0.10),
+            transparent 30%
+        ),
+        #f7f7f9;
+
+}
+
+
+/* =====================================================
+   LOGIN CARD
+   ===================================================== */
+
+.login-card {
+
+    width: 100%;
+
+    max-width: 450px;
+
+    background: white;
+
+    border-radius: 22px;
+
+    padding: 42px;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.08);
+
+    border: 1px solid #eeeeef;
+
+}
+
+
+/* =====================================================
+   LOGO
+   ===================================================== */
+
+.login-logo {
+
+    width: 65px;
+
+    height: 65px;
+
+    margin: 0 auto 20px;
+
+    border-radius: 18px;
+
+    background: #7157e8;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 30px;
+
+    box-shadow:
+        0 10px 25px
+        rgba(113, 87, 232, 0.25);
+
+}
+
+
+.login-header {
+
+    text-align: center;
+
+    margin-bottom: 32px;
+
+}
+
+
+.login-header h1 {
+
+    margin: 0;
+
+    font-size: 30px;
+
+    letter-spacing: -0.8px;
+
+}
+
+
+.login-header p {
+
+    margin: 10px 0 0;
+
+    color: #777;
+
+    font-size: 14px;
+
+}
+
+
+/* =====================================================
+   FORM
+   ===================================================== */
+
+.login-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+
+}
+
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+
+.form-group label {
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #333;
+
+}
+
+
+.input-wrapper {
+
+    position: relative;
+
+}
+
+
+.input-icon {
+
+    position: absolute;
+
+    left: 15px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 17px;
+
+    color: #888;
+
+    pointer-events: none;
+
+}
+
+
+.form-input {
+
+    width: 100%;
+
+    height: 50px;
+
+    padding: 0 15px 0 45px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    font-size: 14px;
+
+    background: #fafafa;
+
+    transition: 0.2s;
+
+}
+
+
+.form-input:focus {
+
+    border-color: #7157e8;
+
+    background: white;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(113, 87, 232, 0.10);
+
+}
+
+
+/* =====================================================
+   PASSWORD TOGGLE
+   ===================================================== */
+
+.password-toggle {
+
+    position: absolute;
+
+    right: 14px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    color: #777;
+
+}
+
+
+/* =====================================================
+   REMEMBER / FORGOT
+   ===================================================== */
+
+.form-options {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    font-size: 13px;
+
+}
+
+
+.remember {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #666;
+
+}
+
+
+.remember input {
+
+    accent-color: #7157e8;
+
+}
+
+
+.forgot-link {
+
+    color: #7157e8;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+}
+
+
+/* =====================================================
+   LOGIN BUTTON
+   ===================================================== */
+
+.login-button {
+
+    width: 100%;
+
+    height: 52px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #171719;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+.login-button:hover {
+
+    background: #7157e8;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(113, 87, 232, 0.22);
+
+}
+
+
+/* =====================================================
+   REGISTER
+   ===================================================== */
+
+.register-section {
+
+    text-align: center;
+
+    margin-top: 27px;
+
+    padding-top: 25px;
+
+    border-top: 1px solid #eee;
+
+    font-size: 14px;
+
+    color: #777;
+
+}
+
+
+.register-section a {
+
+    color: #7157e8;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+}
+
+
+.register-section a:hover {
+
+    text-decoration: underline;
+
+}
+
+
+/* =====================================================
+   DEMO NOTE
+   ===================================================== */
+
+.login-note {
+
+    text-align: center;
+
+    margin-top: 20px;
+
+    color: #aaa;
+
+    font-size: 11px;
+
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media(max-width:500px) {
+
+    .login-card {
+
+        padding: 30px 22px;
+
+    }
+
+
+    .login-header h1 {
+
+        font-size: 26px;
+
+    }
+
+}
+
+</style>
+
+
+<div class="login-page">
+
+
+    <div class="login-card">
+
+
+        <!-- LOGO -->
+
+        <div class="login-logo">
+
+            🎬
+
+        </div>
+
+
+        <!-- HEADER -->
+
+        <div class="login-header">
+
+            <h1>
+                Welcome Back
+            </h1>
+
+            <p>
+                Login to continue your CineBook journey
+            </p>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form
+            method="POST"
+            action="{{ url_for('auth.login') }}"
+            class="login-form"
+        >
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        ✉️
+                    </span>
+
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="form-input"
+                        placeholder="Enter your email"
+                        required
+                        autocomplete="email"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        🔒
+                    </span>
+
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-input"
+                        placeholder="Enter your password"
+                        required
+                        autocomplete="current-password"
+                    >
+
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="password-toggle"
+                    >
+                        👁️
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- OPTIONS -->
+
+            <div class="form-options">
+
+                <label class="remember">
+
+                    <input
+                        type="checkbox"
+                        name="remember"
+                    >
+
+                    Remember me
+
+                </label>
+
+
+                <a
+                    href="#"
+                    class="forgot-link"
+                >
+                    Forgot password?
+                </a>
+
+            </div>
+
+
+            <!-- LOGIN -->
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+
+                Login to CineBook →
+
+            </button>
+
+
+        </form>
+
+
+        <!-- REGISTER -->
+
+        <div class="register-section">
+
+            Don't have an account?
+
+            <a
+                href="{{ url_for('auth.register') }}"
+            >
+                Create Account
+            </a>
+
+        </div>
+
+
+        <div class="login-note">
+
+            🎬 Your movie journey starts here
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+const passwordInput =
+    document.getElementById(
+        "password"
+    );
+
+const passwordToggle =
+    document.getElementById(
+        "password-toggle"
+    );
+
+
+passwordToggle.addEventListener(
+    "click",
+    () => {
+
+        if (
+            passwordInput.type ===
+            "password"
+        ) {
+
+            passwordInput.type =
+                "text";
+
+            passwordToggle.textContent =
+                "🙈";
+
+        } else {
+
+            passwordInput.type =
+                "password";
+
+            passwordToggle.textContent =
+                "👁️";
+
+        }
+
+    }
+);
+
+</script>
+
+{% endblock %}
